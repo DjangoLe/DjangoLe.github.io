@@ -148,68 +148,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-lala" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/14/lala/">lala</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/14/lala/" class="archive-article-date">
-  	<time datetime="2019-09-14T06:03:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/14/lala/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-内网穿透" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -231,31 +169,33 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="NatApp内网穿透"><a href="#NatApp内网穿透" class="headerlink" title="NatApp内网穿透"></a>NatApp内网穿透</h2><ol>
-<li><p>打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。</p>
+<li>打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。</li>
+</ol>
 <ul>
 <li>在Ubuntu先检查是否安装了ssh: ps -e|grep ssh</li>
 <li>安装ssh服务：sudo apt-get install openssh-server</li>
 <li>启动ssh服务：sudo service ssh start</li>
 </ul>
-</li>
+<ol start="2">
 <li><p>注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议隧道主要是进行字节流的传输</p>
 </li>
 <li><p>到<a href="https://natapp.cn/" target="_blank" rel="noopener">https://natapp.cn/</a>  下载(配置linux)</p>
 </li>
 </ol>
-<p>   <img src="/.com//1568430939438.png" alt="1568430939438"></p>
+<p><img src="/.com//1568430939438.png" alt="1568430939438"></p>
 <ol start="4">
 <li><p>解压得到natapp，传输到linux上</p>
 </li>
 <li><p>配置权限：sudo chmod a+x natapp</p>
 </li>
 <li><p>启动natapp：sudo ./natapp authtoken=申请隧道的authtoken</p>
-<p><img src="/.com//1568431308652.png" alt="1568431308652"></p>
-</li>
-<li><p>web输入网址访问就OK, tcp 可以利用外网远程连接内网服务器</p>
-<p><img src="/.com//20190914134635.png" alt="QQ图片20190914134635"></p>
 </li>
 </ol>
+<p><img src="/.com//1568431308652.png" alt="1568431308652"></p>
+<ol start="7">
+<li>web输入网址访问就OK, tcp 可以利用外网远程连接内网服务器</li>
+</ol>
+<p><img src="/.com//20190914134635.png" alt="QQ图片20190914134635"></p>
 
       
 
