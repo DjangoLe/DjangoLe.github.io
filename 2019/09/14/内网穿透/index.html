@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>内网穿透 | gyl</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="NatApp内网穿透一.  打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。  在Ubuntu先检查是否安装了ssh: ps -e|grep ssh 安装ssh服务：sudo apt-get install openssh-server 启动ssh服务：sudo service ssh start  二.  注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，">
+  <meta name="description" content="NatApp内网穿透 打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。   在Ubuntu先检查是否安装了ssh: ps -e|grep ssh 安装ssh服务：sudo apt-get install openssh-server 启动ssh服务：sudo service ssh start   注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议">
 <meta name="keywords" content="主页">
 <meta property="og:type" content="article">
 <meta property="og:title" content="内网穿透">
 <meta property="og:url" content="http://yoursite.com/2019/09/14/内网穿透/index.html">
 <meta property="og:site_name" content="gyl">
-<meta property="og:description" content="NatApp内网穿透一.  打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。  在Ubuntu先检查是否安装了ssh: ps -e|grep ssh 安装ssh服务：sudo apt-get install openssh-server 启动ssh服务：sudo service ssh start  二.  注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，">
+<meta property="og:description" content="NatApp内网穿透 打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。   在Ubuntu先检查是否安装了ssh: ps -e|grep ssh 安装ssh服务：sudo apt-get install openssh-server 启动ssh服务：sudo service ssh start   注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://yoursite.com/.com//1568430939438.png">
 <meta property="og:image" content="http://yoursite.com/.com//1568431308652.png">
 <meta property="og:image" content="http://yoursite.com/.com//20190914134635.png">
-<meta property="og:updated_time" content="2019-09-14T06:18:11.302Z">
+<meta property="og:updated_time" content="2019-09-14T06:19:45.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="内网穿透">
-<meta name="twitter:description" content="NatApp内网穿透一.  打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。  在Ubuntu先检查是否安装了ssh: ps -e|grep ssh 安装ssh服务：sudo apt-get install openssh-server 启动ssh服务：sudo service ssh start  二.  注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，">
+<meta name="twitter:description" content="NatApp内网穿透 打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。   在Ubuntu先检查是否安装了ssh: ps -e|grep ssh 安装ssh服务：sudo apt-get install openssh-server 启动ssh服务：sudo service ssh start   注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议">
 <meta name="twitter:image" content="http://yoursite.com/.com//1568430939438.png">
   
     <link rel="alternative" href="/atom.xml" title="gyl" type="application/atom+xml">
@@ -175,20 +175,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="NatApp内网穿透"><a href="#NatApp内网穿透" class="headerlink" title="NatApp内网穿透"></a>NatApp内网穿透</h2><p>一.  打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。</p>
+        <h2 id="NatApp内网穿透"><a href="#NatApp内网穿透" class="headerlink" title="NatApp内网穿透"></a>NatApp内网穿透</h2><ol>
+<li>打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。</li>
+</ol>
 <ul>
 <li>在Ubuntu先检查是否安装了ssh: ps -e|grep ssh</li>
 <li>安装ssh服务：sudo apt-get install openssh-server</li>
 <li>启动ssh服务：sudo service ssh start</li>
 </ul>
-<p>二.  注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议隧道主要是进行字节流的传输</p>
-<p>三.  到<a href="https://natapp.cn/" target="_blank" rel="noopener">https://natapp.cn/</a>  下载(配置linux)</p>
+<ol start="2">
+<li><p>注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议隧道主要是进行字节流的传输</p>
+</li>
+<li><p>到<a href="https://natapp.cn/" target="_blank" rel="noopener">https://natapp.cn/</a>  下载(配置linux)</p>
+</li>
+</ol>
 <p><img src="/.com//1568430939438.png" alt="1568430939438"></p>
-<p>四.  解压得到natapp，传输到linux上</p>
-<p>五.  配置权限：sudo chmod a+x natapp</p>
-<p>六.  启动natapp：sudo ./natapp authtoken=申请隧道的authtoken</p>
+<ol start="4">
+<li><p>解压得到natapp，传输到linux上</p>
+</li>
+<li><p>配置权限：sudo chmod a+x natapp</p>
+</li>
+<li><p>启动natapp：sudo ./natapp authtoken=申请隧道的authtoken</p>
+</li>
+</ol>
 <p><img src="/.com//1568431308652.png" alt="1568431308652"></p>
-<p>七.  web输入网址访问就OK, tcp 可以利用外网远程连接内网服务器</p>
+<ol start="7">
+<li>web输入网址访问就OK, tcp 可以利用外网远程连接内网服务器</li>
+</ol>
 <p><img src="/.com//20190914134635.png" alt="QQ图片20190914134635"></p>
 
       
