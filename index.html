@@ -148,6 +148,145 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java设计模式包含的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/16/java设计模式包含的问题/">java设计模式包含的问题</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/16/java设计模式包含的问题/" class="archive-article-date">
+  	<time datetime="2019-09-16T05:09:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>static&#x600E;&#x6837;&#x4FDD;&#x8BC1;&#x5168;&#x5C40;&#x7684;&#x552F;&#x4E00;&#x6027;&#xFF1F;</p>
+<p>&#x200B;    &#x9759;&#x6001;&#x53D8;&#x91CF;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x62F7;&#x8D1D;&#xFF08;&#x8282;&#x7701;&#x5185;&#x5B58;&#xFF09;&#xFF0C;JVM&#x53EA;&#x4E3A;&#x9759;&#x6001;&#x5206;&#x914D;&#x4E00;&#x6B21;&#x5185;&#x5B58;&#xFF0C;&#x5728;&#x52A0;&#x8F7D;&#x7C7B;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x5B8C;&#x6210;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#xFF0C;&#x53EF;&#x7528;&#x7C7B;&#x540D;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#xFF08;&#x65B9;&#x4FBF;&#xFF09;</p>
+</li>
+<li><p>Tomcat&#x4E0B;&#x591A;&#x4E2A;&#x5E94;&#x7528;&#x600E;&#x6837;&#x8BA9;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;&#x5168;&#x5C40;&#x552F;&#x4E00;&#xFF1F;</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>&#x5355;&#x4F8B;&#x6A21;&#x5F0F;&#x600E;&#x6837;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x60C5;&#x51B5;&#x4E0B;&#x4FDD;&#x8BC1;&#x5B9E;&#x4F8B;&#x552F;&#x4E00;&#xFF08;&#x7528;&#x4EC0;&#x4E48;&#x7EC4;&#x4EF6;&#xFF09;&#xFF1F;&#x7528;&#x4EC0;&#x4E48;&#x65B9;&#x5F0F;&#x4FDD;&#x8BC1;&#x5355;&#x4F8B;&#x7684;&#x4E3B;&#x673A;&#x9AD8;&#x53EF;&#x7528;&#xFF1F;</p>
+<ol>
+<li>ss</li>
+<li>&#x5229;&#x7528;&#x4E3B;&#x4ECE;&#x6A21;&#x5F0F;&#xFF0C;ZooKeeper &#x5B9E;&#x73B0;&#x4E86;&#x4E3B;&#x4ECE;&#x6A21;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x642D;&#x5EFA;&#x4E00;&#x4E2A;&#x80FD;&#x591F;&#x5141;&#x8BB8; N &#x53F0;&#x673A;&#x5668; down &#x6389;&#x7684;&#x96C6;&#x7FA4;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8981;&#x90E8;&#x7F72;&#x4E00;&#x4E2A;&#x7531; 2*N+1 &#x53F0;&#x670D;&#x52A1;&#x5668;&#x6784;&#x6210;&#x7684; ZooKeeper &#x96C6;&#x7FA4;</li>
+</ol>
+</li>
+<li><p>&#x6DF1;&#x62F7;&#x8D1D;&#xFF0C;&#x6D45;&#x62F7;&#x8D1D;. clone &#x662F;&#x6DF1;&#x62F7;&#x8D1D;&#x8FD8;&#x662F;&#x6D45;&#x62F7;&#x8D1D;&#xFF1F;&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x7684;&#xFF1F;&#x6DF1;&#x62F7;&#x8D1D;&#x62F7;&#x8D1D;&#x5230;&#x4E0D;&#x53EF;&#x53D8;&#x7684;&#x90A3;&#x5C42;&#xFF1F;</p>
+<ol>
+<li><ol>
+<li>&#x6D45;&#x62F7;&#x8D1D;&#x53EA;&#x662F;&#x590D;&#x5236;&#x4E86;&#x5BF9;&#x8C61;&#x7684;&#x5F15;&#x7528;&#x5730;&#x5740;&#xFF0C;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x540C;&#x4E00;&#x4E2A;&#x5185;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x4FEE;&#x6539;&#x5176;&#x4E2D;&#x4EFB;&#x610F;&#x7684;&#x503C;&#xFF0C;&#x53E6;&#x4E00;&#x4E2A;&#x503C;&#x90FD;&#x4F1A;&#x968F;&#x4E4B;&#x53D8;&#x5316;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6D45;&#x62F7;&#x8D1D;&#x3002;</li>
+<li>&#x6DF1;&#x62F7;&#x8D1D;&#x662F;&#x5C06;&#x5BF9;&#x8C61;&#x53CA;&#x503C;&#x590D;&#x5236;&#x8FC7;&#x6765;&#xFF0C;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x4FEE;&#x6539;&#x5176;&#x4E2D;&#x4EFB;&#x610F;&#x7684;&#x503C;&#x53E6;&#x4E00;&#x4E2A;&#x503C;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6DF1;&#x62F7;&#x8D1D;</li>
+</ol>
+</li>
+<li><ol>
+<li>&#x5BF9;&#x8C61;&#x5B9E;&#x73B0;Cloneable&#x63A5;&#x53E3;&#x5E76;&#x91CD;&#x5199;Object&#x7C7B;&#x4E2D;&#x7684;clone()&#x65B9;&#x6CD5;&#xFF08;&#x6D45;&#x514B;&#x9686;&#x65B9;&#x5F0F;&#xFF09;</li>
+<li>&#x5BF9;&#x8C61;&#x5B9E;&#x73B0;Serializable&#x63A5;&#x53E3;&#xFF0C;&#x901A;&#x8FC7;&#x5BF9;&#x8C61;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x5B9E;&#x73B0;&#x514B;&#x9686;&#xFF08;&#x6B64;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x771F;&#x6B63;&#x7684;&#x6DF1;&#x5EA6;&#x514B;&#x9686;&#xFF09;&#x3002;</li>
+<li>&#x8BE6;&#x89C1;<a href="https://blog.csdn.net/leixiaotao_java/article/details/69525224" target="_blank" rel="noopener">https://blog.csdn.net/leixiaotao_java/article/details/69525224</a></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<ol start="3">
+<li>&#x62F7;&#x8D1D;&#x5230;&#x6700;&#x540E;&#x4E00;&#x5C42;</li>
+</ol>
+<ol start="2">
+<li><p>&#x4EC0;&#x4E48;&#x53EB;spi,&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x3002;spi&#x5BF9;&#x5E94;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x673A;&#x5236;&#xFF0C;java&#x9488;&#x5BF9;spi&#x52A0;&#x8F7D;&#x52A0;&#x8F7D;&#x90A3;&#x4E2A;&#x5730;&#x65B9;&#xFF1F;</p>
+<ol>
+<li>SPI&#x673A;&#x5236;&#xFF08;Service Provider Interface)&#x5176;&#x5B9E;&#x6E90;&#x81EA;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x8005;&#x6846;&#x67B6;&#xFF08;Service Provider Framework)&#xFF0C;&#x662F;&#x4E00;&#x79CD;&#x5C06;&#x670D;&#x52A1;&#x63A5;&#x53E3;&#x4E0E;&#x670D;&#x52A1;&#x5B9E;&#x73B0;&#x5206;&#x79BB;&#x4EE5;&#x8FBE;&#x5230;&#x89E3;&#x8026;&#x3001;&#x5927;&#x5927;&#x63D0;&#x5347;&#x4E86;&#x7A0B;&#x5E8F;&#x53EF;&#x6269;&#x5C55;&#x6027;&#x7684;&#x673A;&#x5236;&#x3002;</li>
+<li>&#x901A;&#x8FC7;&#x5728;ClassPath&#x8DEF;&#x5F84;&#x4E0B;&#x7684;META-INF/services&#x6587;&#x4EF6;&#x5939;&#x67E5;&#x627E;&#x6587;&#x4EF6;&#xFF0C;&#x81EA;&#x52A8;&#x52A0;&#x8F7D;&#x6587;&#x4EF6;&#x91CC;&#x6240;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;</li>
+<li>java.util.ServiceLoader</li>
+<li><img src="/2019/09/16/java&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x5305;&#x542B;&#x7684;&#x95EE;&#x9898;/1.png" alt="1"></li>
+<li>&#x8BE6;&#x89C1;<a href="https://www.jianshu.com/p/3a3edbcd8f24" target="_blank" rel="noopener">https://www.jianshu.com/p/3a3edbcd8f24</a></li>
+</ol>
+</li>
+<li><p>&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x4E0E;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;&#x7684;&#x533A;&#x522B;&#xFF0C;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x7684;&#x53D8;&#x5F62;</p>
+<ol>
+<li><p>&#x5DE5;&#x5382;&#x6A21;&#x5F0F;&#x7528;&#x4E8E;&#x5904;&#x7406; <strong>&#x5982;&#x4F55;&#x83B7;&#x53D6;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;</strong> &#x95EE;&#x9898;&#xFF0C;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x7528;&#x4E8E;&#x5904;&#x7406; <strong>&#x5982;&#x4F55;&#x5EFA;&#x9020;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;</strong> &#x95EE;&#x9898;</p>
+</li>
+<li><p>&#x6211;&#x4EEC;&#x5E38;&#x7528;&#x7684;&#x5E76;&#x4E0D;&#x662F;&#x6807;&#x51C6;&#x7684;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#xFF0C;&#x800C;&#x662F;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x7684;&#x4E00;&#x79CD;&#x53D8;&#x5F62;&#xFF0C;&#x7701;&#x7565;&#x4E86;&#x8BBE;&#x8BA1;&#x8005;&#x8FD9;&#x4E2A;&#x73AF;&#x8282;</p>
+</li>
+<li><p>&#x8BE6;&#x89C1;<a href="https://blog.csdn.net/monkeyd5/article/details/73478940" target="_blank" rel="noopener">https://blog.csdn.net/monkeyd5/article/details/73478940</a>&#x548C;<a href="https://blog.csdn.net/m0_37402140/article/details/78273047" target="_blank" rel="noopener">https://blog.csdn.net/m0_37402140/article/details/78273047</a></p>
+</li>
+</ol>
+</li>
+</ol>
+<ol start="7">
+<li><p>Aop,spring &#x7528;&#x4EC0;&#x4E48;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;Aop,&#x5B9E;&#x73B0;&#x4EE3;&#x7406;&#x7684;&#x539F;&#x7406;&#xFF1F;    </p>
+<ol>
+<li>JDK&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF1A;JDK&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x6765;&#x63A5;&#x6536;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x4E14;&#x8981;&#x6C42;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x6838;&#x5FC3;&#x662F;InvocationHandler&#x63A5;&#x53E3;&#x548C;Proxy&#x7C7B;&#x3002;</li>
+<li>CGLIB&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF1A;&#x662F;&#x4E00;&#x4E2A;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x7684;&#x7C7B;&#x5E93;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x52A8;&#x6001;&#x7684;&#x751F;&#x6210;&#x67D0;&#x4E2A;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;CGLIB&#x662F;&#x901A;&#x8FC7;&#x7EE7;&#x627F;&#x7684;&#x65B9;&#x5F0F;&#x505A;&#x7684;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF0C;&#x56E0;&#x6B64;&#x5982;&#x679C;&#x67D0;&#x4E2A;&#x7C7B;&#x88AB;&#x6807;&#x8BB0;&#x4E3A;final&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x662F;&#x65E0;&#x6CD5;&#x4F7F;&#x7528;CGLIB&#x505A;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;</li>
+</ol>
+</li>
+<li><p>&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;&#x4F7F;&#x7528;&#x53CA;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#xFF0C;&#x539F;&#x7406;                                             </p>
+</li>
+<li><p>&#x9002;&#x914D;&#x5668;&#x7684;&#x533A;&#x522B;</p>
+</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">主页</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/16/java设计模式包含的问题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-内网穿透" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -219,154 +358,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/09/14/内网穿透/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="tags-主题2" class="article article-type-tags  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/09/主题2/">主题2</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/09/主题2/" class="archive-article-date">
-  	<time datetime="2019-09-09T12:02:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3>llf</h3>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/09/主题2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-主题1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/09/主题1/">主题1</a>
-    </h1>
-  
-
-        
-        <a href="/2019/09/09/主题1/" class="archive-article-date">
-  	<time datetime="2019-09-09T08:06:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1>aaaa</h1>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/09/主题1/">展开全文 >></a>
         </p>
       
 
@@ -562,6 +553,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">主页</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
