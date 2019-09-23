@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>gyl</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="gyl">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="gyl">
+<meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gyl">
+<meta name="twitter:title" content="Hexo">
   
-    <link rel="alternative" href="/atom.xml" title="gyl" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -46,7 +46,7 @@
 			<img src="/img/cartoon.jpg" class="js-avatar show">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">Gao Yun Le</a></h1>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
 		</hgroup>
 		
 
@@ -102,7 +102,7 @@
 				<img src="[object Object]" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">Gao Yun Le</h1>
+			  <h1 class="header-author js-header-author">John Doe</h1>
 			</hgroup>
 			
 			
@@ -148,6 +148,147 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-mybatis知识总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/23/mybatis知识总结/">mybatis知识总结</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/23/mybatis知识总结/" class="archive-article-date">
+  	<time datetime="2019-09-23T11:02:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>在mybatis的配置文件中，取数值时用${} 自身不加’’,采用#{}自动加””。</p>
+</li>
+<li><p>一对一：业务扩展：添加一个新类并且继承其中一个类。</p>
+<p>​                 resultmap：通过属性成员建立关系property代表类中的成员，column代表数据库中的字段（不区分大小写），如</p>
+<p>  <code>&lt;result property=&quot;age&quot; column=&quot;age&quot;&gt;&lt;/result&gt;&lt;result property=&quot;gradName&quot; column=&quot;gradname&quot;&gt;&lt;/result&gt;&lt;result property=&quot;age&quot; column=&quot;age&quot;&gt;&lt;/result&gt;&lt;result property=&quot;gradName&quot; column=&quot;gradname&quot;&gt;&lt;/result&gt;//一对一时，对象使用association映射；JavaType指定该属性的类型&lt;association prorperty=&quot;card&quot; javaType=&quot;StudentCard&quot;&gt;&lt;result property=&quot;cardinfo&quot; column=&quot;cardinfo&quot;&gt;&lt;/result&gt;&lt;/association&gt;</code></p>
+<p>  一对多：resultmap：collection返回的是一个对象集合，要把javaType转换成ofType,并且ofType对应的是集合中的元素类型。</p>
+<p>  <code>&lt;!--</code> 配置成员属性 ，一对多 ；属性类型：javaType,属性的元素类型：ofType–&gt;`</p>
+<pre><code>`&lt;collection property=&quot;students&quot; ofType=&quot;Student&quot;&gt;`
+    `&lt;id/&gt;`
+    `&lt;result property=&quot;gradName&quot; column=&quot;gradname&quot;&gt;&lt;/result&gt;`
+    `&lt;result property=&quot;age&quot; column=&quot;age&quot;&gt;&lt;/result&gt;`
+    `&lt;result property=&quot;gradName&quot; column=&quot;gradname&quot;&gt;&lt;/result&gt;`
+&lt;/collection&gt;`</code></pre></li>
+<li><p>数据库的字段与类中的属性数据类型不对应时可以采取的方法</p>
+<ol>
+<li><p>创建一个java类，继承BaseTypeHandler&lt;数据类型&gt;，重写方法</p>
+</li>
+<li><p>首先在conf.xml配置</p>
+<p>``<typehandlers>`</typehandlers></p>
+<pre><code>`&lt;typeHandler handler=&quot;org.gyl.converter.BooleanAndIntConvert&quot; javaType=&quot;Boolean&quot; jdbcType=&quot;INTEGER&quot;/&gt;`</code></pre><p> `</p>
+</li>
+<li><p>在Mapper.xml中：</p>
+<p><code>&lt;result property=&quot;sex&quot; column=&quot;sex&quot; javaType=&quot;boolean&quot; jdbcType=&quot;INTEGER&quot;&gt;&lt;/result&gt;</code></p>
+</li>
+</ol>
+</li>
+<li><p>mybatis调用存储过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">    	&lt;select id=<span class="string">"queryByProcedure"</span> statementType=<span class="string">"CALLABLE"</span> parameterType=<span class="string">"HashMap"</span>&gt;</span><br><span class="line">   		&#123;</span><br><span class="line">   			CALL 存储过程名(#&#123;gname,jdbcType="VARCHAR",mode=IN&#125;,#&#123;scount,jdbcType,mode=OUT&#125;)</span><br><span class="line">   		&#125;</span><br><span class="line">&lt;/select&gt;</span><br><span class="line"></span><br><span class="line">调用存储过程</span><br><span class="line"> 	Map map = <span class="keyword">new</span> HashMap();  </span><br><span class="line">    map.put(<span class="string">"gname"</span>, <span class="number">1243</span>);  </span><br><span class="line">  session.getMapper(StudentMapper.class).queryByProcedure(map);  </span><br><span class="line">    System.out.println(map.get(<span class="string">"scount"</span>));</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>foreach：将多个元素放在list中,stuNos是一个列表</p>
+<p><code>&lt;if</code>test=”stuNos!=null and stuNos.size&gt;0”&gt;`</p>
+<pre><code>    `&lt;foreach collection=&quot;stuNos&quot; open=&quot; and stuNo in(&quot; close=&quot;)&quot;
+        item=&quot;stuNo&quot; separator=&quot;,&quot;&gt;`
+            `#{stuNo}`
+        `&lt;/foreach&gt;`
+&lt;/if&gt;`</code></pre><p>将多个元素放在简单类型数组，在xml中必须用array.在paramterType中用数据类型[]</p>
+<p>将多个元素放在对象数组时，在xml中必须用array ,在paramterType中用Object[]</p>
+</li>
+<li><p>关于parameterType和resultMap、resultType</p>
+<ol>
+<li>当传入的参数为一个数组时，parameterType=”数据类型[]”。</li>
+<li>resultMap可以在返回一个对象时，进行元素的修改。</li>
+<li>resultType必须要匹配现有的数据类型和类中对应的元素。</li>
+</ol>
+</li>
+<li><p>延迟加载(如在加载学生信息时，并不立即加载学生证信息)</p>
+<ol>
+<li><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;settings&gt;</span><br><span class="line">        &lt;!-- 开启延迟加载 --&gt;</span><br><span class="line">        &lt;setting name=<span class="string">"lazyLoadingEnabled"</span> value=<span class="string">"true"</span>/&gt;	</span><br><span class="line">&lt;!-- 关闭立即加载 --&gt;</span><br><span class="line">    &lt;setting name=<span class="string">"aggressiveLazyLoading"</span> value=<span class="string">"false"</span>/&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置mapper.xml:写2个Mapper:    班级mapper.xml</p>
+<select id="queryClassAndStudents" resultmap="class_student_lazyLoad_map">
+
+<pre><code>        select  c.* from studentclass c
+    &lt;/select&gt;        
+
+&lt;resultMap type=&quot;studentClass&quot; id=&quot;class_student_lazyLoad_map&quot;&gt;
+        &lt;!-- 因为 type的主类是班级，因此先配置班级的信息--&gt;
+        &lt;id  property=&quot;classId&quot; column=&quot;classId&quot;/&gt;
+        &lt;result  property=&quot;className&quot; column=&quot;className&quot;/&gt;
+        &lt;!-- 配置成员属性学生，一对多;属性类型：javaType，属性的元素类型ofType --&gt;
+        &lt;!-- 2222222再查班级对应的学生 --&gt;
+        &lt;collection property=&quot;students&quot; ofType=&quot;student&quot; select=&quot;org.lanqiao.mapper.StudentMapper.queryStudentsByClassId&quot; column=&quot;classid&quot;&gt;
+
+        &lt;/collection&gt;
+&lt;/resultMap&gt;</code></pre></select></li>
+</ol>
+</li>
+<li><p>sql片段</p>
+</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">​		&lt;sql id=<span class="string">"objectarray"</span>&gt;</span><br><span class="line">		&lt;where&gt;</span><br><span class="line">			&lt;<span class="keyword">if</span> test=<span class="string">"array!=null and array.size&gt;0"</span>&gt;</span><br><span class="line">				&lt;foreach collection=<span class="string">"array"</span> open=<span class="string">" and stuNo in("</span> close=<span class="string">")"</span></span><br><span class="line">					item=<span class="string">"stuNo"</span> separator=<span class="string">","</span>&gt;</span><br><span class="line">						#&#123;stuNo&#125;</span><br><span class="line">					&lt;/foreach&gt;</span><br><span class="line">			&lt;/if&gt;</span><br><span class="line">		&lt;/where&gt;</span><br><span class="line">	&lt;/sql&gt;</span><br><span class="line">		&lt;select id=<span class="string">"querywithList"</span> parameterType=<span class="string">"int[]"</span> resultMap=<span class="string">"HashMap"</span> &gt;</span><br><span class="line"> 		select * from student</span><br><span class="line"> 		&lt;include refid="objectarray"&gt;&lt;/include&gt;</span><br><span class="line"> 		&lt;!-- 如果sql片段和引用出不在同一个文件 --&gt;</span><br><span class="line"> 		&lt;include refid="org.gyl.xxx.objectarray"&gt;&lt;/include&gt;</span><br><span class="line">	&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li><p>一级缓存和二级缓存</p>
+<p><img src="mybatis%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93%5C%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98.png" alt></p>
+<p><img src="mybatis%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93%5C%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98.png" alt></p>
+</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/23/mybatis知识总结/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-小常识" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -169,18 +310,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ol>
-<li>&#x5B57;&#x7B26;&#x6D41;&#x548C;&#x5B57;&#x8282;&#x6D41;&#x7684;&#x8054;&#x7CFB;&#x4EE5;&#x53CA;&#x533A;&#x522B;<ol>
-<li>&#x5B57;&#x7B26;&#x6D41;&#xFF1A;reader &#x548C; writer<ol>
-<li>&#x5904;&#x7406;&#x5355;&#x5143;&#x4E3A;2&#x4E2A;&#x5B57;&#x8282;&#x7684;Unicode&#x5B57;&#x7B26;&#xFF0C;&#x5206;&#x522B;&#x4E3A;&#x64CD;&#x4F5C;&#x5B57;&#x7B26;&#x3001;&#x5B57;&#x7B26;&#x6570;&#x7EC4;&#x548C;&#x5B57;&#x7B26;&#x4E32;</li>
-<li>&#x5B57;&#x7B26;&#x6D41;&#x662F;&#x7531;java&#x865A;&#x62DF;&#x673A;&#x5C06;&#x5B57;&#x8282;&#x8F6C;&#x5316;&#x4E3A;&#x4E24;&#x4E2A;&#x5B57;&#x8282;&#x7684;Unicode&#x5B57;&#x7B26;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x5B57;&#x7B26;&#x800C;&#x6210;&#x7684;</li>
-<li>&#x9002;&#x5408;&#x5173;&#x7CFB;&#x5230;&#x4E2D;&#x6587;</li>
-<li>&#x53EA;&#x80FD;&#x5904;&#x7406;&#x5B57;&#x7B26;&#x6216;&#x8005;&#x5B57;&#x7B26;&#x4E32;</li>
+<li>字符流和字节流的联系以及区别<ol>
+<li>字符流：reader 和 writer<ol>
+<li>处理单元为2个字节的Unicode字符，分别为操作字符、字符数组和字符串</li>
+<li>字符流是由java虚拟机将字节转化为两个字节的Unicode字符为单位的字符而成的</li>
+<li>适合关系到中文</li>
+<li>只能处理字符或者字符串</li>
 </ol>
 </li>
-<li>&#x5B57;&#x8282;&#x6D41;&#xFF1A;inputstream &#x548C;outputstream<ol>
-<li>&#x5904;&#x7406;&#x5355;&#x5143;&#x4E3A;1&#x4E2A;&#x5B57;&#x8282;</li>
-<li>&#x9002;&#x5408;&#x591A;&#x56FD;&#x8BED;&#x8A00;&#x652F;&#x6301;&#x7684;&#x6587;&#x4EF6;&#x3001;&#x56FE;&#x7247;&#x3001;&#x6B4C;&#x66F2;</li>
-<li>&#x5B57;&#x8282;&#x6D41;&#x53EF;&#x4EE5;&#x5904;&#x7406;&#x4EFB;&#x4F55;&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5305;&#x62EC;&#x4E8C;&#x8FDB;&#x5236;&#x5BF9;&#x8C61;&#xFF0C;&#x4F46;&#x4ED6;&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x5904;&#x7406;unicode &#x5B57;&#x7B26;</li>
+<li>字节流：inputstream 和outputstream<ol>
+<li>处理单元为1个字节</li>
+<li>适合多国语言支持的文件、图片、歌曲</li>
+<li>字节流可以处理任何类型的对象，包括二进制对象，但他不能直接处理unicode 字符</li>
 </ol>
 </li>
 </ol>
@@ -261,68 +402,68 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ol>
-<li><p>static&#x600E;&#x6837;&#x4FDD;&#x8BC1;&#x5168;&#x5C40;&#x7684;&#x552F;&#x4E00;&#x6027;&#xFF1F;</p>
-<p>&#x200B;    &#x9759;&#x6001;&#x53D8;&#x91CF;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x62F7;&#x8D1D;&#xFF08;&#x8282;&#x7701;&#x5185;&#x5B58;&#xFF09;&#xFF0C;JVM&#x53EA;&#x4E3A;&#x9759;&#x6001;&#x5206;&#x914D;&#x4E00;&#x6B21;&#x5185;&#x5B58;&#xFF0C;&#x5728;&#x52A0;&#x8F7D;&#x7C7B;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x5B8C;&#x6210;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x7684;&#x5185;&#x5B58;&#x5206;&#x914D;&#xFF0C;&#x53EF;&#x7528;&#x7C7B;&#x540D;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#xFF08;&#x65B9;&#x4FBF;&#xFF09;</p>
+<li><p>static怎样保证全局的唯一性？</p>
+<p>​    静态变量在内存中只有一个拷贝（节省内存），JVM只为静态分配一次内存，在加载类的过程中完成静态变量的内存分配，可用类名直接访问（方便）</p>
 </li>
-<li><p>Tomcat&#x4E0B;&#x591A;&#x4E2A;&#x5E94;&#x7528;&#x600E;&#x6837;&#x8BA9;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;&#x5168;&#x5C40;&#x552F;&#x4E00;&#xFF1F;</p>
+<li><p>Tomcat下多个应用怎样让单例模式全局唯一？</p>
 <p> ssss</p>
 </li>
-<li><p>&#x5355;&#x4F8B;&#x6A21;&#x5F0F;&#x600E;&#x6837;&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x60C5;&#x51B5;&#x4E0B;&#x4FDD;&#x8BC1;&#x5B9E;&#x4F8B;&#x552F;&#x4E00;&#xFF08;&#x7528;&#x4EC0;&#x4E48;&#x7EC4;&#x4EF6;&#xFF09;&#xFF1F;&#x7528;&#x4EC0;&#x4E48;&#x65B9;&#x5F0F;&#x4FDD;&#x8BC1;&#x5355;&#x4F8B;&#x7684;&#x4E3B;&#x673A;&#x9AD8;&#x53EF;&#x7528;&#xFF1F;</p>
+<li><p>单例模式怎样在分布式情况下保证实例唯一（用什么组件）？用什么方式保证单例的主机高可用？</p>
 <ol>
 <li>ss</li>
-<li>&#x5229;&#x7528;&#x4E3B;&#x4ECE;&#x6A21;&#x5F0F;&#xFF0C;ZooKeeper &#x5B9E;&#x73B0;&#x4E86;&#x4E3B;&#x4ECE;&#x6A21;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x642D;&#x5EFA;&#x4E00;&#x4E2A;&#x80FD;&#x591F;&#x5141;&#x8BB8; N &#x53F0;&#x673A;&#x5668; down &#x6389;&#x7684;&#x96C6;&#x7FA4;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x8981;&#x90E8;&#x7F72;&#x4E00;&#x4E2A;&#x7531; 2*N+1 &#x53F0;&#x670D;&#x52A1;&#x5668;&#x6784;&#x6210;&#x7684; ZooKeeper &#x96C6;&#x7FA4;</li>
+<li>利用主从模式，ZooKeeper 实现了主从模式，如果想搭建一个能够允许 N 台机器 down 掉的集群，那么就要部署一个由 2*N+1 台服务器构成的 ZooKeeper 集群</li>
 </ol>
 </li>
-<li><p>&#x6DF1;&#x62F7;&#x8D1D;&#xFF0C;&#x6D45;&#x62F7;&#x8D1D;. clone &#x662F;&#x6DF1;&#x62F7;&#x8D1D;&#x8FD8;&#x662F;&#x6D45;&#x62F7;&#x8D1D;&#xFF1F;&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x7684;&#xFF1F;&#x6DF1;&#x62F7;&#x8D1D;&#x62F7;&#x8D1D;&#x5230;&#x4E0D;&#x53EF;&#x53D8;&#x7684;&#x90A3;&#x5C42;&#xFF1F;</p>
+<li><p>深拷贝，浅拷贝. clone 是深拷贝还是浅拷贝？怎样实现的？深拷贝拷贝到不可变的那层？</p>
 <ol>
 <li><ol>
-<li>&#x6D45;&#x62F7;&#x8D1D;&#x53EA;&#x662F;&#x590D;&#x5236;&#x4E86;&#x5BF9;&#x8C61;&#x7684;&#x5F15;&#x7528;&#x5730;&#x5740;&#xFF0C;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x540C;&#x4E00;&#x4E2A;&#x5185;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x4FEE;&#x6539;&#x5176;&#x4E2D;&#x4EFB;&#x610F;&#x7684;&#x503C;&#xFF0C;&#x53E6;&#x4E00;&#x4E2A;&#x503C;&#x90FD;&#x4F1A;&#x968F;&#x4E4B;&#x53D8;&#x5316;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6D45;&#x62F7;&#x8D1D;&#x3002;</li>
-<li>&#x6DF1;&#x62F7;&#x8D1D;&#x662F;&#x5C06;&#x5BF9;&#x8C61;&#x53CA;&#x503C;&#x590D;&#x5236;&#x8FC7;&#x6765;&#xFF0C;&#x4E24;&#x4E2A;&#x5BF9;&#x8C61;&#x4FEE;&#x6539;&#x5176;&#x4E2D;&#x4EFB;&#x610F;&#x7684;&#x503C;&#x53E6;&#x4E00;&#x4E2A;&#x503C;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x6DF1;&#x62F7;&#x8D1D;</li>
+<li>浅拷贝只是复制了对象的引用地址，两个对象指向同一个内存地址，所以修改其中任意的值，另一个值都会随之变化，这就是浅拷贝。</li>
+<li>深拷贝是将对象及值复制过来，两个对象修改其中任意的值另一个值不会改变，这就是深拷贝</li>
 </ol>
 </li>
 <li><ol>
-<li>&#x5BF9;&#x8C61;&#x5B9E;&#x73B0;Cloneable&#x63A5;&#x53E3;&#x5E76;&#x91CD;&#x5199;Object&#x7C7B;&#x4E2D;&#x7684;clone()&#x65B9;&#x6CD5;&#xFF08;&#x6D45;&#x514B;&#x9686;&#x65B9;&#x5F0F;&#xFF09;</li>
-<li>&#x5BF9;&#x8C61;&#x5B9E;&#x73B0;Serializable&#x63A5;&#x53E3;&#xFF0C;&#x901A;&#x8FC7;&#x5BF9;&#x8C61;&#x7684;&#x5E8F;&#x5217;&#x5316;&#x548C;&#x53CD;&#x5E8F;&#x5217;&#x5316;&#x5B9E;&#x73B0;&#x514B;&#x9686;&#xFF08;&#x6B64;&#x65B9;&#x6CD5;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x771F;&#x6B63;&#x7684;&#x6DF1;&#x5EA6;&#x514B;&#x9686;&#xFF09;&#x3002;</li>
-<li>&#x8BE6;&#x89C1;<a href="https://blog.csdn.net/leixiaotao_java/article/details/69525224" target="_blank" rel="noopener">https://blog.csdn.net/leixiaotao_java/article/details/69525224</a></li>
+<li>对象实现Cloneable接口并重写Object类中的clone()方法（浅克隆方式）</li>
+<li>对象实现Serializable接口，通过对象的序列化和反序列化实现克隆（此方法可以实现真正的深度克隆）。</li>
+<li>详见<a href="https://blog.csdn.net/leixiaotao_java/article/details/69525224" target="_blank" rel="noopener">https://blog.csdn.net/leixiaotao_java/article/details/69525224</a></li>
 </ol>
 </li>
 </ol>
 </li>
 </ol>
 <ol start="3">
-<li>&#x62F7;&#x8D1D;&#x5230;&#x6700;&#x540E;&#x4E00;&#x5C42;</li>
+<li>拷贝到最后一层</li>
 </ol>
 <ol start="2">
-<li><p>&#x4EC0;&#x4E48;&#x53EB;spi,&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x3002;spi&#x5BF9;&#x5E94;&#x7684;&#x7C7B;&#x52A0;&#x8F7D;&#x673A;&#x5236;&#xFF0C;java&#x9488;&#x5BF9;spi&#x52A0;&#x8F7D;&#x52A0;&#x8F7D;&#x90A3;&#x4E2A;&#x5730;&#x65B9;&#xFF1F;</p>
+<li><p>什么叫spi,怎样实现。spi对应的类加载机制，java针对spi加载加载那个地方？</p>
 <ol>
-<li>SPI&#x673A;&#x5236;&#xFF08;Service Provider Interface)&#x5176;&#x5B9E;&#x6E90;&#x81EA;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x8005;&#x6846;&#x67B6;&#xFF08;Service Provider Framework)&#xFF0C;&#x662F;&#x4E00;&#x79CD;&#x5C06;&#x670D;&#x52A1;&#x63A5;&#x53E3;&#x4E0E;&#x670D;&#x52A1;&#x5B9E;&#x73B0;&#x5206;&#x79BB;&#x4EE5;&#x8FBE;&#x5230;&#x89E3;&#x8026;&#x3001;&#x5927;&#x5927;&#x63D0;&#x5347;&#x4E86;&#x7A0B;&#x5E8F;&#x53EF;&#x6269;&#x5C55;&#x6027;&#x7684;&#x673A;&#x5236;&#x3002;</li>
-<li>&#x901A;&#x8FC7;&#x5728;ClassPath&#x8DEF;&#x5F84;&#x4E0B;&#x7684;META-INF/services&#x6587;&#x4EF6;&#x5939;&#x67E5;&#x627E;&#x6587;&#x4EF6;&#xFF0C;&#x81EA;&#x52A8;&#x52A0;&#x8F7D;&#x6587;&#x4EF6;&#x91CC;&#x6240;&#x5B9A;&#x4E49;&#x7684;&#x7C7B;</li>
+<li>SPI机制（Service Provider Interface)其实源自服务提供者框架（Service Provider Framework)，是一种将服务接口与服务实现分离以达到解耦、大大提升了程序可扩展性的机制。</li>
+<li>通过在ClassPath路径下的META-INF/services文件夹查找文件，自动加载文件里所定义的类</li>
 <li>java.util.ServiceLoader</li>
-<li><img src="/2019/09/16/java&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x5305;&#x542B;&#x7684;&#x95EE;&#x9898;/1.png" alt="1"></li>
-<li>&#x8BE6;&#x89C1;<a href="https://www.jianshu.com/p/3a3edbcd8f24" target="_blank" rel="noopener">https://www.jianshu.com/p/3a3edbcd8f24</a></li>
+<li><img src="java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%8C%85%E5%90%AB%E7%9A%84%E9%97%AE%E9%A2%98/1.png" alt="1"></li>
+<li>详见<a href="https://www.jianshu.com/p/3a3edbcd8f24" target="_blank" rel="noopener">https://www.jianshu.com/p/3a3edbcd8f24</a></li>
 </ol>
 </li>
-<li><p>&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x4E0E;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;&#x7684;&#x533A;&#x522B;&#xFF0C;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x7684;&#x53D8;&#x5F62;</p>
+<li><p>建造者模式与工厂模式的区别，建造者模式的变形</p>
 <ol>
-<li><p>&#x5DE5;&#x5382;&#x6A21;&#x5F0F;&#x7528;&#x4E8E;&#x5904;&#x7406; <strong>&#x5982;&#x4F55;&#x83B7;&#x53D6;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;</strong> &#x95EE;&#x9898;&#xFF0C;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x7528;&#x4E8E;&#x5904;&#x7406; <strong>&#x5982;&#x4F55;&#x5EFA;&#x9020;&#x5B9E;&#x4F8B;&#x5BF9;&#x8C61;</strong> &#x95EE;&#x9898;</p>
+<li><p>工厂模式用于处理 <strong>如何获取实例对象</strong> 问题，建造者模式用于处理 <strong>如何建造实例对象</strong> 问题</p>
 </li>
-<li><p>&#x6211;&#x4EEC;&#x5E38;&#x7528;&#x7684;&#x5E76;&#x4E0D;&#x662F;&#x6807;&#x51C6;&#x7684;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#xFF0C;&#x800C;&#x662F;&#x5EFA;&#x9020;&#x8005;&#x6A21;&#x5F0F;&#x7684;&#x4E00;&#x79CD;&#x53D8;&#x5F62;&#xFF0C;&#x7701;&#x7565;&#x4E86;&#x8BBE;&#x8BA1;&#x8005;&#x8FD9;&#x4E2A;&#x73AF;&#x8282;</p>
+<li><p>我们常用的并不是标准的建造者模式，而是建造者模式的一种变形，省略了设计者这个环节</p>
 </li>
-<li><p>&#x8BE6;&#x89C1;<a href="https://blog.csdn.net/monkeyd5/article/details/73478940" target="_blank" rel="noopener">https://blog.csdn.net/monkeyd5/article/details/73478940</a>&#x548C;<a href="https://blog.csdn.net/m0_37402140/article/details/78273047" target="_blank" rel="noopener">https://blog.csdn.net/m0_37402140/article/details/78273047</a></p>
+<li><p>详见<a href="https://blog.csdn.net/monkeyd5/article/details/73478940" target="_blank" rel="noopener">https://blog.csdn.net/monkeyd5/article/details/73478940</a>和<a href="https://blog.csdn.net/m0_37402140/article/details/78273047" target="_blank" rel="noopener">https://blog.csdn.net/m0_37402140/article/details/78273047</a></p>
 </li>
 </ol>
 </li>
 </ol>
 <ol start="7">
-<li><p>Aop,spring &#x7528;&#x4EC0;&#x4E48;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;Aop,&#x5B9E;&#x73B0;&#x4EE3;&#x7406;&#x7684;&#x539F;&#x7406;&#xFF1F;    </p>
+<li><p>Aop,spring 用什么方式实现Aop,实现代理的原理？    </p>
 <ol>
-<li>JDK&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF1A;JDK&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x6765;&#x63A5;&#x6536;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#xFF0C;&#x5E76;&#x4E14;&#x8981;&#x6C42;&#x88AB;&#x4EE3;&#x7406;&#x7684;&#x7C7B;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x4E00;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C;&#x6838;&#x5FC3;&#x662F;InvocationHandler&#x63A5;&#x53E3;&#x548C;Proxy&#x7C7B;&#x3002;</li>
-<li>CGLIB&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF1A;&#x662F;&#x4E00;&#x4E2A;&#x4EE3;&#x7801;&#x751F;&#x6210;&#x7684;&#x7C7B;&#x5E93;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x52A8;&#x6001;&#x7684;&#x751F;&#x6210;&#x67D0;&#x4E2A;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x6CE8;&#x610F;&#xFF0C;CGLIB&#x662F;&#x901A;&#x8FC7;&#x7EE7;&#x627F;&#x7684;&#x65B9;&#x5F0F;&#x505A;&#x7684;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF0C;&#x56E0;&#x6B64;&#x5982;&#x679C;&#x67D0;&#x4E2A;&#x7C7B;&#x88AB;&#x6807;&#x8BB0;&#x4E3A;final&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x662F;&#x65E0;&#x6CD5;&#x4F7F;&#x7528;CGLIB&#x505A;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;</li>
+<li>JDK动态代理：JDK动态代理通过反射来接收被代理的类，并且要求被代理的类必须实现一个接口，核心是InvocationHandler接口和Proxy类。</li>
+<li>CGLIB动态代理：是一个代码生成的类库，可以在运行时动态的生成某个类的子类，注意，CGLIB是通过继承的方式做的动态代理，因此如果某个类被标记为final，那么它是无法使用CGLIB做动态代理的</li>
 </ol>
 </li>
-<li><p>&#x52A8;&#x6001;&#x4EE3;&#x7406;&#x7684;&#x4F7F;&#x7528;&#x53CA;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#xFF0C;&#x539F;&#x7406;                                             </p>
+<li><p>动态代理的使用及实现方式，原理                                             </p>
 </li>
-<li><p>&#x9002;&#x914D;&#x5668;&#x7684;&#x533A;&#x522B;</p>
+<li><p>适配器的区别</p>
 <p>ssss</p>
 </li>
 </ol>
@@ -399,31 +540,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="NatApp&#x5185;&#x7F51;&#x7A7F;&#x900F;"><a href="#NatApp&#x5185;&#x7F51;&#x7A7F;&#x900F;" class="headerlink" title="NatApp&#x5185;&#x7F51;&#x7A7F;&#x900F;"></a>NatApp&#x5185;&#x7F51;&#x7A7F;&#x900F;</h2><ul>
-<li><p>&#x6253;&#x5F00;Ubuntu&#x6216;&#x8005;Centos&#xFF0C;&#x5229;&#x7528;xshell&#x6216;&#x8005;&#x5176;&#x4ED6;&#x5DE5;&#x5177;&#x8FDC;&#x7A0B;&#x8FDE;&#x63A5;&#x3002;    </p>
+        <h2 id="NatApp内网穿透"><a href="#NatApp内网穿透" class="headerlink" title="NatApp内网穿透"></a>NatApp内网穿透</h2><ul>
+<li><p>打开Ubuntu或者Centos，利用xshell或者其他工具远程连接。    </p>
 </li>
-<li><p>&#x5728;Ubuntu&#x5148;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x5B89;&#x88C5;&#x4E86;ssh: ps -e|grep ssh</p>
+<li><p>在Ubuntu先检查是否安装了ssh: ps -e|grep ssh</p>
 </li>
-<li><p>&#x5B89;&#x88C5;ssh&#x670D;&#x52A1;&#xFF1A;sudo apt-get install openssh-server</p>
+<li><p>安装ssh服务：sudo apt-get install openssh-server</p>
 </li>
-<li><p>&#x542F;&#x52A8;ssh&#x670D;&#x52A1;&#xFF1A;sudo service ssh start</p>
+<li><p>启动ssh服务：sudo service ssh start</p>
 </li>
 </ul>
 <ol start="2">
-<li><p>&#x6CE8;&#x518C;NatApp&#x8D26;&#x53F7;&#xFF0C;&#x8D2D;&#x4E70;&#x96A7;&#x9053;&#x3002;Web&#x96A7;&#x9053;&#x534F;&#x8BAE;&#x4E3B;&#x8981;&#x662F;&#x8BBF;&#x95EE;&#x5185;&#x7F51;&#x7F51;&#x5740;&#xFF0C;Tcp&#x534F;&#x8BAE;&#x96A7;&#x9053;&#x4E3B;&#x8981;&#x662F;&#x8FDB;&#x884C;&#x5B57;&#x8282;&#x6D41;&#x7684;&#x4F20;&#x8F93;&#x3002;</p>
+<li><p>注册NatApp账号，购买隧道。Web隧道协议主要是访问内网网址，Tcp协议隧道主要是进行字节流的传输。</p>
 </li>
-<li><p>&#x5230;<a href="https://natapp.cn/" target="_blank" rel="noopener">https://natapp.cn/</a>  &#x4E0B;&#x8F7D;(&#x914D;&#x7F6E;linux)&#x3002;</p>
-<p><img src="/2019/09/14/&#x5185;&#x7F51;&#x7A7F;&#x900F;/1568430939438.png" alt="1568430939438"></p>
+<li><p>到<a href="https://natapp.cn/" target="_blank" rel="noopener">https://natapp.cn/</a>  下载(配置linux)。</p>
+<p><img src="%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1568430939438.png" alt="1568430939438"></p>
 </li>
-<li><p>&#x89E3;&#x538B;&#x5F97;&#x5230;natapp&#xFF0C;&#x4F20;&#x8F93;&#x5230;linux&#x4E0A;&#x3002;</p>
+<li><p>解压得到natapp，传输到linux上。</p>
 </li>
-<li><p>&#x914D;&#x7F6E;&#x6743;&#x9650;&#xFF1A;sudo chmod a+x natapp&#x3002;</p>
+<li><p>配置权限：sudo chmod a+x natapp。</p>
 </li>
-<li><p>&#x542F;&#x52A8;natapp&#xFF1A;sudo ./natapp authtoken=&#x7533;&#x8BF7;&#x96A7;&#x9053;&#x7684;authtoken&#x3002;</p>
-<p>&#x200B;    <img src="/2019/09/14/&#x5185;&#x7F51;&#x7A7F;&#x900F;/1568431308652.png" alt="1568431308652"></p>
+<li><p>启动natapp：sudo ./natapp authtoken=申请隧道的authtoken。</p>
+<p>​    <img src="%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1568431308652.png" alt="1568431308652"></p>
 </li>
-<li><p>web&#x8F93;&#x5165;&#x7F51;&#x5740;&#x8BBF;&#x95EE;&#x5C31;OK, tcp &#x53EF;&#x4EE5;&#x5229;&#x7528;&#x5916;&#x7F51;&#x8FDC;&#x7A0B;&#x8FDE;&#x63A5;&#x5185;&#x7F51;&#x670D;&#x52A1;&#x5668;&#x3002;</p>
-<p>&#x200B;    <img src="/2019/09/14/&#x5185;&#x7F51;&#x7A7F;&#x900F;/20190914134635.png" alt="20190914134635"></p>
+<li><p>web输入网址访问就OK, tcp 可以利用外网远程连接内网服务器。</p>
+<p>​    <img src="%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20190914134635.png" alt="20190914134635"></p>
 </li>
 </ol>
 
@@ -500,7 +641,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
@@ -564,7 +705,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 Gao Yun Le
+    		&copy; 2019 John Doe
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -808,5 +949,5 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 
 </div>
   </div>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true}});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>
